@@ -155,6 +155,9 @@ Run the tests:
 .venv\Scripts\python -m unittest discover -s tests -t .
 ```
 
+The tests need a real project. Point `VISUSCALER_TEST_PACKAGE` at a package folder (for example `...\Logical\HMIControl`)
+that contains a QVGA visualization named `HMI`. Without it they are skipped. The tests work on a temporary copy.
+
 Build a standalone GUI exe (output: `dist\VisuScaler.exe`):
 
 ```

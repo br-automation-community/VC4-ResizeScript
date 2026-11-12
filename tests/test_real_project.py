@@ -1,4 +1,8 @@
-"""Runs against a temp copy of a real project's HMI folder. Skipped when it is not on this machine."""
+"""Runs against a temp copy of a real project's HMI folder.
+
+Set VISUSCALER_TEST_PACKAGE to a package folder (e.g. ...\\Logical\\HMIControl) that contains a QVGA
+visualization named HMI. Without it these tests are skipped.
+"""
 import hashlib
 import os
 import shutil
@@ -8,7 +12,7 @@ import unittest
 from visuscaler import runner
 from visuscaler.settings import Settings
 
-REAL = r"C:\Projects\Customers\nVenia\SAL18_411f_110215\Logical\HMIControl"
+REAL = os.environ.get("VISUSCALER_TEST_PACKAGE", "")
 PADS = ["AlphaPadQVGA", "AlphaPadQVGA1"]
 
 
@@ -22,7 +26,8 @@ def tree_hash(root):
     return h.hexdigest()
 
 
-@unittest.skipUnless(os.path.isdir(os.path.join(REAL, "HMI")), "real project not available")
+@unittest.skipUnless(REAL and os.path.isdir(os.path.join(REAL, "HMI")),
+                     "set VISUSCALER_TEST_PACKAGE to a package folder containing an HMI visualization")
 class RealProject(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
